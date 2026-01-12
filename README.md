@@ -1,45 +1,71 @@
 # bt-shared
 
-Shared types, schemas, and utilities for Band Together. Contains TypeScript interfaces, API contracts, and common utilities used across bt-api and bt-client.
+Shared types, utilities, and Prisma client for Band Together.
 
-## Contents
+This module provides a configured `PrismaClient` (via PrismaPg for PostgreSQL), shared types/utilities, and a committed generated client under `generated/prisma-client/` so consumers can install from GitHub or use a local workspace link.
 
-- **Types**: Shared TypeScript interfaces and types
-- **Schemas**: Data validation schemas (e.g., Zod, Yup)
-- **Constants**: Shared constants and enums
-- **Utilities**: Common helper functions
-
-## Installation
+## Install
 
 ```bash
 # In bt-api or bt-client
 bun add @band-together/shared
 ```
 
+## Environment
+
+Create `shared/.env` (or provide `DATABASE_URL` in your environment):
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/band_together"
+```
+
+This is loaded by `dotenv` in `index.ts`.
+
 ## Usage
 
-```typescript
-import { User, Band } from '@band-together/shared'
-import { validateUserInput } from '@band-together/shared/schemas'
+```ts
+import { PrismaClient } from '@band-together/shared'
+
+const prisma = PrismaClient()
+// or pass PrismaClientOptions
+// const prisma = PrismaClient({ log: ['query'] })
 ```
 
-## Project Structure
+## Development
+
+The Prisma client is generated from the `db` module and copied here:
+
+```bash
+# In db/
+bun run generate
+# This writes to shared/generated/prisma-client/
+```
+
+During development, prefer workspace linking in `api/package.json`:
+
+```json
+{
+  "dependencies": {
+    "@band-together/shared": "workspace:../shared"
+  }
+}
+```
+
+For CI/deployments, installing from GitHub works because `@prisma/client` is a dependency of this package.
+
+## Structure
 
 ```
-src/
-  types/
-  schemas/
-  constants/
-  utils/
+shared/
+  index.ts                 # Exports configured PrismaClient
+  generated/
+    prisma-client/         # Committed Prisma client output
+  .env(.example)           # DATABASE_URL for adapter
+  package.json             # Declares @prisma/client
+  tsconfig.json
 ```
 
-## Contributing
+## Notes
 
-When adding new shared types or utilities:
-1. Keep them agnostic to implementation details
-2. Update both dependent packages when making breaking changes
-3. Add appropriate exports to main index
-
-## License
-
-MIT
+- Uses NodeNext module resolution; ensure explicit extensions when importing internally.
+- `@prisma/client` is declared as a dependency so consumers don't manage Prisma internals.
