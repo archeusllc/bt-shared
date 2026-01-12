@@ -1,0 +1,23 @@
+{
+  "name": "@band-together/shared",
+  "version": "0.1.0",
+  "description": "Shared types, schemas, and utilities for Band Together",
+  "private": true,
+  "type": "module",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": {
+      "import": "./index.ts",
+      "types": "./index.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.2.0",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

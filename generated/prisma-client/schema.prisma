@@ -1,0 +1,123 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider               = "prisma-client-js"
+  output                 = "../generated"
+  moduleFormat           = "esm"
+  generatedFileExtension = ".ts"
+  importFileExtension    = ".ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          String       @id @default(cuid())
+  firebaseId  String       @unique
+  email       String       @unique
+  displayName String?
+  photoUrl    String?
+  bandMembers BandMember[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Band {
+  id          String       @id @default(cuid())
+  name        String
+  description String?
+  imageUrl    String?
+  members     BandMember[]
+  setlists    Setlist[]
+  rehearsals  Rehearsal[]
+  gigs        Gig[]
+  songs       Song[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BandMember {
+  id     String @id @default(cuid())
+  userId String
+  bandId String
+  role   String @default("member") // "admin" | "member"
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  band   Band   @relation(fields: [bandId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, bandId])
+}
+
+model Song {
+  id           String        @id @default(cuid())
+  bandId       String
+  title        String
+  artist       String?
+  duration     Int? // in seconds
+  notes        String?
+  band         Band          @relation(fields: [bandId], references: [id], onDelete: Cascade)
+  setlistSongs SetlistSong[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Setlist {
+  id          String        @id @default(cuid())
+  bandId      String
+  title       String
+  description String?
+  band        Band          @relation(fields: [bandId], references: [id], onDelete: Cascade)
+  songs       SetlistSong[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SetlistSong {
+  id        String  @id @default(cuid())
+  setlistId String
+  songId    String
+  order     Int
+  setlist   Setlist @relation(fields: [setlistId], references: [id], onDelete: Cascade)
+  song      Song    @relation(fields: [songId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([setlistId, songId])
+}
+
+model Rehearsal {
+  id        String   @id @default(cuid())
+  bandId    String
+  title     String
+  startTime DateTime
+  endTime   DateTime
+  location  String?
+  band      Band     @relation(fields: [bandId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Gig {
+  id        String   @id @default(cuid())
+  bandId    String
+  title     String
+  startTime DateTime
+  endTime   DateTime
+  venue     String?
+  address   String?
+  payRate   Float?
+  band      Band     @relation(fields: [bandId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
