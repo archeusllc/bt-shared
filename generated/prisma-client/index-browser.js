@@ -130,77 +130,6 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.BandScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  description: 'description',
-  imageUrl: 'imageUrl',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.BandMemberScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  bandId: 'bandId',
-  role: 'role',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SongScalarFieldEnum = {
-  id: 'id',
-  bandId: 'bandId',
-  title: 'title',
-  artist: 'artist',
-  duration: 'duration',
-  notes: 'notes',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SetlistScalarFieldEnum = {
-  id: 'id',
-  bandId: 'bandId',
-  title: 'title',
-  description: 'description',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SetlistSongScalarFieldEnum = {
-  id: 'id',
-  setlistId: 'setlistId',
-  songId: 'songId',
-  order: 'order',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.RehearsalScalarFieldEnum = {
-  id: 'id',
-  bandId: 'bandId',
-  title: 'title',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  location: 'location',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.GigScalarFieldEnum = {
-  id: 'id',
-  bandId: 'bandId',
-  title: 'title',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  venue: 'venue',
-  address: 'address',
-  payRate: 'payRate',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -218,14 +147,7 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  User: 'User',
-  Band: 'Band',
-  BandMember: 'BandMember',
-  Song: 'Song',
-  Setlist: 'Setlist',
-  SetlistSong: 'SetlistSong',
-  Rehearsal: 'Rehearsal',
-  Gig: 'Gig'
+  User: 'User'
 };
 
 /**

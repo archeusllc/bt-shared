@@ -102,77 +102,6 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.BandScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  description: 'description',
-  imageUrl: 'imageUrl',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.BandMemberScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  bandId: 'bandId',
-  role: 'role',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SongScalarFieldEnum = {
-  id: 'id',
-  bandId: 'bandId',
-  title: 'title',
-  artist: 'artist',
-  duration: 'duration',
-  notes: 'notes',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SetlistScalarFieldEnum = {
-  id: 'id',
-  bandId: 'bandId',
-  title: 'title',
-  description: 'description',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SetlistSongScalarFieldEnum = {
-  id: 'id',
-  setlistId: 'setlistId',
-  songId: 'songId',
-  order: 'order',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.RehearsalScalarFieldEnum = {
-  id: 'id',
-  bandId: 'bandId',
-  title: 'title',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  location: 'location',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.GigScalarFieldEnum = {
-  id: 'id',
-  bandId: 'bandId',
-  title: 'title',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  venue: 'venue',
-  address: 'address',
-  payRate: 'payRate',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -190,14 +119,7 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  User: 'User',
-  Band: 'Band',
-  BandMember: 'BandMember',
-  Song: 'Song',
-  Setlist: 'Setlist',
-  SetlistSong: 'SetlistSong',
-  Rehearsal: 'Rehearsal',
-  Gig: 'Gig'
+  User: 'User'
 };
 /**
  * Create the Client
@@ -207,10 +129,10 @@ const config = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider               = \"prisma-client-js\"\n  output                 = \"../generated\"\n  moduleFormat           = \"esm\"\n  generatedFileExtension = \".ts\"\n  importFileExtension    = \".ts\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id          String       @id @default(cuid())\n  firebaseId  String       @unique\n  email       String       @unique\n  displayName String?\n  photoUrl    String?\n  bandMembers BandMember[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Band {\n  id          String       @id @default(cuid())\n  name        String\n  description String?\n  imageUrl    String?\n  members     BandMember[]\n  setlists    Setlist[]\n  rehearsals  Rehearsal[]\n  gigs        Gig[]\n  songs       Song[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel BandMember {\n  id     String @id @default(cuid())\n  userId String\n  bandId String\n  role   String @default(\"member\") // \"admin\" | \"member\"\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n  band   Band   @relation(fields: [bandId], references: [id], onDelete: Cascade)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([userId, bandId])\n}\n\nmodel Song {\n  id           String        @id @default(cuid())\n  bandId       String\n  title        String\n  artist       String?\n  duration     Int? // in seconds\n  notes        String?\n  band         Band          @relation(fields: [bandId], references: [id], onDelete: Cascade)\n  setlistSongs SetlistSong[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Setlist {\n  id          String        @id @default(cuid())\n  bandId      String\n  title       String\n  description String?\n  band        Band          @relation(fields: [bandId], references: [id], onDelete: Cascade)\n  songs       SetlistSong[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel SetlistSong {\n  id        String  @id @default(cuid())\n  setlistId String\n  songId    String\n  order     Int\n  setlist   Setlist @relation(fields: [setlistId], references: [id], onDelete: Cascade)\n  song      Song    @relation(fields: [songId], references: [id], onDelete: Cascade)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([setlistId, songId])\n}\n\nmodel Rehearsal {\n  id        String   @id @default(cuid())\n  bandId    String\n  title     String\n  startTime DateTime\n  endTime   DateTime\n  location  String?\n  band      Band     @relation(fields: [bandId], references: [id], onDelete: Cascade)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Gig {\n  id        String   @id @default(cuid())\n  bandId    String\n  title     String\n  startTime DateTime\n  endTime   DateTime\n  venue     String?\n  address   String?\n  payRate   Float?\n  band      Band     @relation(fields: [bandId], references: [id], onDelete: Cascade)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n"
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider               = \"prisma-client-js\"\n  output                 = \"../generated\"\n  moduleFormat           = \"esm\"\n  generatedFileExtension = \".ts\"\n  importFileExtension    = \".ts\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id          String  @id @default(cuid())\n  firebaseId  String  @unique\n  email       String  @unique\n  displayName String?\n  photoUrl    String?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firebaseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"displayName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"photoUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bandMembers\",\"kind\":\"object\",\"type\":\"BandMember\",\"relationName\":\"BandMemberToUser\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Band\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"members\",\"kind\":\"object\",\"type\":\"BandMember\",\"relationName\":\"BandToBandMember\"},{\"name\":\"setlists\",\"kind\":\"object\",\"type\":\"Setlist\",\"relationName\":\"BandToSetlist\"},{\"name\":\"rehearsals\",\"kind\":\"object\",\"type\":\"Rehearsal\",\"relationName\":\"BandToRehearsal\"},{\"name\":\"gigs\",\"kind\":\"object\",\"type\":\"Gig\",\"relationName\":\"BandToGig\"},{\"name\":\"songs\",\"kind\":\"object\",\"type\":\"Song\",\"relationName\":\"BandToSong\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"BandMember\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bandId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"BandMemberToUser\"},{\"name\":\"band\",\"kind\":\"object\",\"type\":\"Band\",\"relationName\":\"BandToBandMember\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Song\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bandId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"artist\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"duration\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"band\",\"kind\":\"object\",\"type\":\"Band\",\"relationName\":\"BandToSong\"},{\"name\":\"setlistSongs\",\"kind\":\"object\",\"type\":\"SetlistSong\",\"relationName\":\"SetlistSongToSong\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Setlist\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bandId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"band\",\"kind\":\"object\",\"type\":\"Band\",\"relationName\":\"BandToSetlist\"},{\"name\":\"songs\",\"kind\":\"object\",\"type\":\"SetlistSong\",\"relationName\":\"SetlistToSetlistSong\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"SetlistSong\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"setlistId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"songId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"setlist\",\"kind\":\"object\",\"type\":\"Setlist\",\"relationName\":\"SetlistToSetlistSong\"},{\"name\":\"song\",\"kind\":\"object\",\"type\":\"Song\",\"relationName\":\"SetlistSongToSong\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Rehearsal\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bandId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"location\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"band\",\"kind\":\"object\",\"type\":\"Band\",\"relationName\":\"BandToRehearsal\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Gig\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bandId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"venue\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"payRate\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"band\",\"kind\":\"object\",\"type\":\"Band\",\"relationName\":\"BandToGig\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firebaseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"displayName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"photoUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.compilerWasm = {
   getRuntime: async () => require('./query_compiler_bg.js'),
