@@ -874,7 +874,6 @@ export namespace Prisma {
 
   export type UserMinAggregateOutputType = {
     id: string | null
-    firebaseId: string | null
     email: string | null
     displayName: string | null
     photoUrl: string | null
@@ -884,7 +883,6 @@ export namespace Prisma {
 
   export type UserMaxAggregateOutputType = {
     id: string | null
-    firebaseId: string | null
     email: string | null
     displayName: string | null
     photoUrl: string | null
@@ -894,7 +892,6 @@ export namespace Prisma {
 
   export type UserCountAggregateOutputType = {
     id: number
-    firebaseId: number
     email: number
     displayName: number
     photoUrl: number
@@ -906,7 +903,6 @@ export namespace Prisma {
 
   export type UserMinAggregateInputType = {
     id?: true
-    firebaseId?: true
     email?: true
     displayName?: true
     photoUrl?: true
@@ -916,7 +912,6 @@ export namespace Prisma {
 
   export type UserMaxAggregateInputType = {
     id?: true
-    firebaseId?: true
     email?: true
     displayName?: true
     photoUrl?: true
@@ -926,7 +921,6 @@ export namespace Prisma {
 
   export type UserCountAggregateInputType = {
     id?: true
-    firebaseId?: true
     email?: true
     displayName?: true
     photoUrl?: true
@@ -1009,7 +1003,6 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: string
-    firebaseId: string
     email: string
     displayName: string | null
     photoUrl: string | null
@@ -1036,7 +1029,6 @@ export namespace Prisma {
 
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    firebaseId?: boolean
     email?: boolean
     displayName?: boolean
     photoUrl?: boolean
@@ -1046,7 +1038,6 @@ export namespace Prisma {
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    firebaseId?: boolean
     email?: boolean
     displayName?: boolean
     photoUrl?: boolean
@@ -1056,7 +1047,6 @@ export namespace Prisma {
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    firebaseId?: boolean
     email?: boolean
     displayName?: boolean
     photoUrl?: boolean
@@ -1066,7 +1056,6 @@ export namespace Prisma {
 
   export type UserSelectScalar = {
     id?: boolean
-    firebaseId?: boolean
     email?: boolean
     displayName?: boolean
     photoUrl?: boolean
@@ -1074,14 +1063,13 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firebaseId" | "email" | "displayName" | "photoUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "displayName" | "photoUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      firebaseId: string
       email: string
       displayName: string | null
       photoUrl: string | null
@@ -1511,7 +1499,6 @@ export namespace Prisma {
    */
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
-    readonly firebaseId: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly displayName: FieldRef<"User", 'String'>
     readonly photoUrl: FieldRef<"User", 'String'>
@@ -1899,7 +1886,6 @@ export namespace Prisma {
 
   export const UserScalarFieldEnum: {
     id: 'id',
-    firebaseId: 'firebaseId',
     email: 'email',
     displayName: 'displayName',
     photoUrl: 'photoUrl',
@@ -1989,7 +1975,6 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
-    firebaseId?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     displayName?: StringNullableFilter<"User"> | string | null
     photoUrl?: StringNullableFilter<"User"> | string | null
@@ -1999,7 +1984,6 @@ export namespace Prisma {
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
-    firebaseId?: SortOrder
     email?: SortOrder
     displayName?: SortOrderInput | SortOrder
     photoUrl?: SortOrderInput | SortOrder
@@ -2009,7 +1993,6 @@ export namespace Prisma {
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    firebaseId?: string
     email?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
@@ -2018,11 +2001,10 @@ export namespace Prisma {
     photoUrl?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-  }, "id" | "firebaseId" | "email">
+  }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
-    firebaseId?: SortOrder
     email?: SortOrder
     displayName?: SortOrderInput | SortOrder
     photoUrl?: SortOrderInput | SortOrder
@@ -2038,7 +2020,6 @@ export namespace Prisma {
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
-    firebaseId?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     displayName?: StringNullableWithAggregatesFilter<"User"> | string | null
     photoUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -2048,7 +2029,6 @@ export namespace Prisma {
 
   export type UserCreateInput = {
     id?: string
-    firebaseId: string
     email: string
     displayName?: string | null
     photoUrl?: string | null
@@ -2058,7 +2038,6 @@ export namespace Prisma {
 
   export type UserUncheckedCreateInput = {
     id?: string
-    firebaseId: string
     email: string
     displayName?: string | null
     photoUrl?: string | null
@@ -2068,7 +2047,6 @@ export namespace Prisma {
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    firebaseId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -2078,7 +2056,6 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    firebaseId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -2088,7 +2065,6 @@ export namespace Prisma {
 
   export type UserCreateManyInput = {
     id?: string
-    firebaseId: string
     email: string
     displayName?: string | null
     photoUrl?: string | null
@@ -2098,7 +2074,6 @@ export namespace Prisma {
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    firebaseId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -2108,7 +2083,6 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    firebaseId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -2164,7 +2138,6 @@ export namespace Prisma {
 
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
-    firebaseId?: SortOrder
     email?: SortOrder
     displayName?: SortOrder
     photoUrl?: SortOrder
@@ -2174,7 +2147,6 @@ export namespace Prisma {
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
-    firebaseId?: SortOrder
     email?: SortOrder
     displayName?: SortOrder
     photoUrl?: SortOrder
@@ -2184,7 +2156,6 @@ export namespace Prisma {
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
-    firebaseId?: SortOrder
     email?: SortOrder
     displayName?: SortOrder
     photoUrl?: SortOrder
