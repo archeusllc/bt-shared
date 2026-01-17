@@ -89,7 +89,9 @@ declare const app: Elysia<"", {
                 query: unknown;
                 headers: unknown;
                 response: {
-                    200: "OK";
+                    200: {
+                        readonly user: import("@band-together/shared").User;
+                    };
                     401: "Unauthorized";
                     422: {
                         type: "validation";
