@@ -18,3 +18,4 @@ export const PrismaClient = (options?: Prisma.PrismaClientOptions) => new _Prism
 
 // Export all shared modules
 export * from './types/index.js';
+export * from './generated/api-types/index.js';
