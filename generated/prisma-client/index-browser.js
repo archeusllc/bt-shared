@@ -124,7 +124,20 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   displayName: 'displayName',
-  avatar: 'avatar'
+  avatar: 'avatar',
+  firebaseUid: 'firebaseUid',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PushTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  platform: 'platform',
+  deviceId: 'deviceId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -141,10 +154,14 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.PushTokenPlatform = exports.$Enums.PushTokenPlatform = {
+  ANDROID: 'ANDROID',
+  WEB: 'WEB'
+};
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  PushToken: 'PushToken'
 };
 
 /**
