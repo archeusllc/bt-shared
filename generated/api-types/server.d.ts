@@ -1,7 +1,7 @@
 import { Elysia } from 'elysia';
 declare const app: Elysia<"", {
     decorator: {
-        user: import("@band-together/shared").User;
+        user: {};
     };
     store: {};
     derive: {};
@@ -76,23 +76,109 @@ declare const app: Elysia<"", {
         };
     };
 } & {
-    auth: {};
-} & {
     auth: {
-        login: {
+        register: {
             post: {
                 body: {
+                    displayName?: string | undefined;
                     email: string;
-                    password: string;
+                    firebaseUid: string;
+                    idToken: string;
                 };
                 params: {};
                 query: unknown;
                 headers: unknown;
                 response: {
                     200: {
-                        readonly user: import("@band-together/shared").User;
+                        user: {
+                            email: string;
+                            displayName: string | null;
+                            firebaseUid: string | null;
+                            id: string;
+                            avatar: string | null;
+                            createdAt: Date;
+                            updatedAt: Date;
+                        };
+                        error?: undefined;
+                    } | {
+                        error: string;
+                        user?: undefined;
                     };
-                    401: "Unauthorized";
+                    422: {
+                        type: "validation";
+                        on: string;
+                        summary?: string;
+                        message?: string;
+                        found?: unknown;
+                        property?: string;
+                        expected?: string;
+                    };
+                };
+            };
+        };
+    };
+} & {
+    auth: {
+        login: {
+            post: {
+                body: {
+                    firebaseUid: string;
+                    idToken: string;
+                };
+                params: {};
+                query: unknown;
+                headers: unknown;
+                response: {
+                    200: {
+                        user: {
+                            email: string;
+                            displayName: string | null;
+                            firebaseUid: string | null;
+                            id: string;
+                            avatar: string | null;
+                            createdAt: Date;
+                            updatedAt: Date;
+                        };
+                        error?: undefined;
+                    } | {
+                        error: string;
+                        user?: undefined;
+                    };
+                    422: {
+                        type: "validation";
+                        on: string;
+                        summary?: string;
+                        message?: string;
+                        found?: unknown;
+                        property?: string;
+                        expected?: string;
+                    };
+                };
+            };
+        };
+    };
+} & {
+    auth: {};
+} & {
+    auth: {
+        me: {
+            get: {
+                body: unknown;
+                params: {};
+                query: unknown;
+                headers: unknown;
+                response: {
+                    200: {
+                        email: string;
+                        displayName: string | null;
+                        firebaseUid: string | null;
+                        id: string;
+                        avatar: string | null;
+                        createdAt: Date;
+                        updatedAt: Date;
+                    } | {
+                        error: string;
+                    };
                     422: {
                         type: "validation";
                         on: string;
@@ -115,35 +201,9 @@ declare const app: Elysia<"", {
                 query: unknown;
                 headers: unknown;
                 response: {
-                    200: "OK" | "Internal Server Error";
-                    422: {
-                        type: "validation";
-                        on: string;
-                        summary?: string;
-                        message?: string;
-                        found?: unknown;
-                        property?: string;
-                        expected?: string;
+                    200: {
+                        success: boolean;
                     };
-                    500: "OK" | "Internal Server Error";
-                };
-            };
-        };
-    };
-} & {
-    auth: {
-        register: {
-            post: {
-                body: {
-                    email: string;
-                    password: string;
-                };
-                params: {};
-                query: unknown;
-                headers: unknown;
-                response: {
-                    201: "Created" | "Bad Request";
-                    400: "Created" | "Bad Request";
                     422: {
                         type: "validation";
                         on: string;
@@ -168,8 +228,9 @@ declare const app: Elysia<"", {
                 query: unknown;
                 headers: unknown;
                 response: {
-                    200: "OK" | "Not Found";
-                    404: "OK" | "Not Found";
+                    200: {
+                        success: boolean;
+                    };
                     422: {
                         type: "validation";
                         on: string;
@@ -200,6 +261,105 @@ declare const app: Elysia<"", {
                     found?: unknown;
                     property?: string;
                     expected?: string;
+                };
+            };
+        };
+    };
+} & {
+    notifications: {
+        register: {
+            post: {
+                body: {
+                    deviceId?: string | undefined;
+                    token: string;
+                    userId: string;
+                    platform: "ANDROID" | "WEB";
+                };
+                params: {};
+                query: unknown;
+                headers: unknown;
+                response: {
+                    200: {
+                        success: boolean;
+                        error?: undefined;
+                    } | {
+                        error: string;
+                        success?: undefined;
+                    };
+                    422: {
+                        type: "validation";
+                        on: string;
+                        summary?: string;
+                        message?: string;
+                        found?: unknown;
+                        property?: string;
+                        expected?: string;
+                    };
+                };
+            };
+        };
+    };
+} & {
+    notifications: {
+        unregister: {
+            post: {
+                body: {
+                    token: string;
+                };
+                params: {};
+                query: unknown;
+                headers: unknown;
+                response: {
+                    200: {
+                        success: boolean;
+                        error?: undefined;
+                    } | {
+                        error: string;
+                        success?: undefined;
+                    };
+                    422: {
+                        type: "validation";
+                        on: string;
+                        summary?: string;
+                        message?: string;
+                        found?: unknown;
+                        property?: string;
+                        expected?: string;
+                    };
+                };
+            };
+        };
+    };
+} & {
+    notifications: {
+        send: {
+            post: {
+                body: {
+                    data?: {} | undefined;
+                    body: string;
+                    userId: string;
+                    title: string;
+                };
+                params: {};
+                query: unknown;
+                headers: unknown;
+                response: {
+                    200: {
+                        success: boolean;
+                        error?: undefined;
+                    } | {
+                        error: string;
+                        success?: undefined;
+                    };
+                    422: {
+                        type: "validation";
+                        on: string;
+                        summary?: string;
+                        message?: string;
+                        found?: unknown;
+                        property?: string;
+                        expected?: string;
+                    };
                 };
             };
         };
